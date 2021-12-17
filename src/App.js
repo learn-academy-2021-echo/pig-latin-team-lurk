@@ -9,7 +9,7 @@ class App extends Component {
     this.state = {
       // "phrase" is the text entered by the user - right now there are test words hard coded to make the process of testing your code faster and easier
       // ACTION ITEM: when you are ready for your full user experience, delete the test words so phrase is assigned an empty string
-      phrase: "chair",
+      phrase: "Hello Echo",
       // "phraseTranslated" is what the user will see appear on the page as Pig Latin, it starts as the preset message and updates when your user clicks the "submit" button
       phraseTranslated: "This is where your translated sentence will appear.",
     };
@@ -65,41 +65,43 @@ class App extends Component {
               word.substring(3);
       };
 
-      const puncCheck=(word) =>{
-        if (word.match(/[.,:!?;]/)){
-            return word.slice(word.match(/[.,:!?;]/).index)
-        }else {
-            return ""
+      const puncCheck = (word) => {
+        if (word.match(/[.,:!?;]/)) {
+          return word.slice(word.match(/[.,:!?;]/).index);
+        } else {
+          return "";
         }
-      }
+      };
 
       let indexOfFirstVowel = currentWord.indexOf(vowelsArray[0]);
       if (indexOfFirstVowel === 0) {
-        let punc = puncCheck(currentWord)
-        return currentWord + "way" + punc;
+        let punc = puncCheck(currentWord);
+        return (
+          currentWord.slice(0, currentWord.length - punc.length) + "way" + punc
+        );
       } else if (currentWord.slice(0, 2).toLowerCase() === "qu") {
-        let punc = puncCheck(currentWord)
+        let punc = puncCheck(currentWord);
         let qu = caseFixQu(currentWord).substring(0, 2);
         let restOfWord = caseFixQu(currentWord).substring(2);
         return restOfWord + qu + "ay" + punc;
       } else if (currentWord.slice(1, 3) === "qu") {
-        let punc = puncCheck(currentWord)
+        let punc = puncCheck(currentWord);
         let consonantAndQu = currentWord.substring(0, 3);
         let restOfWord = currentWord.substring(3);
         return restOfWord + consonantAndQu + "ay" + punc;
       } else if (vowelsArray.length === 0 && currentWord.indexOf("y") !== -1) {
-        let punc = puncCheck(currentWord)
+        let punc = puncCheck(currentWord);
         let consonants = currentWord.substring(0, currentWord.indexOf("y"));
         let restOfWord = currentWord.substring(currentWord.indexOf("y"));
         return restOfWord + consonants + "ay" + punc;
       } else {
-        let punc = puncCheck(currentWord)
+        let punc = puncCheck(currentWord);
         let consonants = caseFix(currentWord).substring(0, indexOfFirstVowel);
         let restOfWord = caseFix(currentWord).substring(indexOfFirstVowel);
         return restOfWord + consonants + "ay" + punc;
       }
       //Input Hello, World! --> Ello,hay Orld!way -->Ellohay, Orldway!
-      //if there is a puncuation, ,.?!:;  
+      //if there is a puncuation, ,.?!:;
       // Move to end of the word
       // Remember: console.log is your friend :)
       // ACTION ITEM: change the value of currentWord to the name of whatever variable you made containing your Pig Latin'd word
