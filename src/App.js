@@ -34,7 +34,12 @@ class App extends Component {
           vowel === "e" ||
           vowel === "i" ||
           vowel === "o" ||
-          vowel === "u"
+          vowel === "u" ||
+          vowel === "A" ||
+          vowel === "E" ||
+          vowel === "I" ||
+          vowel === "O" ||
+          vowel === "U"
         );
       });
       console.log("vowelsArray:", vowelsArray);
@@ -45,23 +50,41 @@ class App extends Component {
       // else if substring(0,1) === qu then, slice qu and append to the end and add 'ay'
       // else if vowelsArray.length === 0 AND there is a y if current.indexOf('y')
       // handle punctuations and capitals eg. Hello, world! -> Ellohay, orldway!
+      const caseFix = (word) => {
+        // false means it is uppercase, true means it is lowercase
+        return word[0] == word[0].toLowerCase()
+          ? word
+          : word[0].toLowerCase() + word[1].toUpperCase() + word.substring(2);
+      };
 
+      const caseFixQu = (word) => {
+        return word[0] == word[0].toLowerCase()
+          ? word
+          : word.substring(0, 2).toLowerCase() +
+              word[2].toUpperCase() +
+              word.substring(3);
+      };
       let indexOfFirstVowel = currentWord.indexOf(vowelsArray[0]);
       if (indexOfFirstVowel === 0) {
         return currentWord + "way";
-      } else if (currentWord.slice(0, 2) === "qu") {
-        let qu = currentWord.substring(0, 2);
-        let restOfWord = currentWord.substring(2);
+      } else if (currentWord.slice(0, 2).toLowerCase() === "qu") {
+        let qu = caseFixQu(currentWord).substring(0, 2);
+        let restOfWord = caseFixQu(currentWord).substring(2);
         return restOfWord + qu + "ay";
       } else if (currentWord.slice(1, 3) === "qu") {
         let consonantAndQu = currentWord.substring(0, 3);
         let restOfWord = currentWord.substring(3);
         return restOfWord + consonantAndQu + "ay";
+      } else if (vowelsArray.length === 0 && currentWord.indexOf("y") !== -1) {
+        let consonants = currentWord.substring(0, currentWord.indexOf("y"));
+        let restOfWord = currentWord.substring(currentWord.indexOf("y"));
+        return restOfWord + consonants + "ay";
       } else {
-        let consonants = currentWord.substring(0, indexOfFirstVowel);
-        let restOfWord = currentWord.substring(indexOfFirstVowel);
+        let consonants = caseFix(currentWord).substring(0, indexOfFirstVowel);
+        let restOfWord = caseFix(currentWord).substring(indexOfFirstVowel);
         return restOfWord + consonants + "ay";
       }
+
       // Remember: console.log is your friend :)
       // ACTION ITEM: change the value of currentWord to the name of whatever variable you made containing your Pig Latin'd word
     });
