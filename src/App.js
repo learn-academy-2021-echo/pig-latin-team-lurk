@@ -64,27 +64,43 @@ class App extends Component {
               word[2].toUpperCase() +
               word.substring(3);
       };
-      let indexOfFirstVowel = currentWord.indexOf(vowelsArray[0]);
-      if (indexOfFirstVowel === 0) {
-        return currentWord + "way";
-      } else if (currentWord.slice(0, 2).toLowerCase() === "qu") {
-        let qu = caseFixQu(currentWord).substring(0, 2);
-        let restOfWord = caseFixQu(currentWord).substring(2);
-        return restOfWord + qu + "ay";
-      } else if (currentWord.slice(1, 3) === "qu") {
-        let consonantAndQu = currentWord.substring(0, 3);
-        let restOfWord = currentWord.substring(3);
-        return restOfWord + consonantAndQu + "ay";
-      } else if (vowelsArray.length === 0 && currentWord.indexOf("y") !== -1) {
-        let consonants = currentWord.substring(0, currentWord.indexOf("y"));
-        let restOfWord = currentWord.substring(currentWord.indexOf("y"));
-        return restOfWord + consonants + "ay";
-      } else {
-        let consonants = caseFix(currentWord).substring(0, indexOfFirstVowel);
-        let restOfWord = caseFix(currentWord).substring(indexOfFirstVowel);
-        return restOfWord + consonants + "ay";
+
+      const puncCheck=(word) =>{
+        if (word.match(/[.,:!?;]/)){
+            return word.slice(word.match(/[.,:!?;]/).index)
+        }else {
+            return ""
+        }
       }
 
+      let indexOfFirstVowel = currentWord.indexOf(vowelsArray[0]);
+      if (indexOfFirstVowel === 0) {
+        let punc = puncCheck(currentWord)
+        return currentWord + "way" + punc;
+      } else if (currentWord.slice(0, 2).toLowerCase() === "qu") {
+        let punc = puncCheck(currentWord)
+        let qu = caseFixQu(currentWord).substring(0, 2);
+        let restOfWord = caseFixQu(currentWord).substring(2);
+        return restOfWord + qu + "ay" + punc;
+      } else if (currentWord.slice(1, 3) === "qu") {
+        let punc = puncCheck(currentWord)
+        let consonantAndQu = currentWord.substring(0, 3);
+        let restOfWord = currentWord.substring(3);
+        return restOfWord + consonantAndQu + "ay" + punc;
+      } else if (vowelsArray.length === 0 && currentWord.indexOf("y") !== -1) {
+        let punc = puncCheck(currentWord)
+        let consonants = currentWord.substring(0, currentWord.indexOf("y"));
+        let restOfWord = currentWord.substring(currentWord.indexOf("y"));
+        return restOfWord + consonants + "ay" + punc;
+      } else {
+        let punc = puncCheck(currentWord)
+        let consonants = caseFix(currentWord).substring(0, indexOfFirstVowel);
+        let restOfWord = caseFix(currentWord).substring(indexOfFirstVowel);
+        return restOfWord + consonants + "ay" + punc;
+      }
+      //Input Hello, World! --> Ello,hay Orld!way -->Ellohay, Orldway!
+      //if there is a puncuation, ,.?!:;  
+      // Move to end of the word
       // Remember: console.log is your friend :)
       // ACTION ITEM: change the value of currentWord to the name of whatever variable you made containing your Pig Latin'd word
     });
