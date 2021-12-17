@@ -43,21 +43,24 @@ class App extends Component {
       // if indexOfFirstVowel === 0
       //   add 'way' to the end of string eg. apple -> appleway
       // else if substring(0,1) === qu then, slice qu and append to the end and add 'ay'
-      // else if vowelsArray.length === 0 AND there is a y
+      // else if vowelsArray.length === 0 AND there is a y if current.indexOf('y')
+      // handle punctuations and capitals eg. Hello, world! -> Ellohay, orldway!
+
       let indexOfFirstVowel = currentWord.indexOf(vowelsArray[0]);
       if (indexOfFirstVowel === 0) {
-        let transformedWords = currentWord + "way";
-        return transformedWords;
+        return currentWord + "way";
       } else if (currentWord.slice(0, 2) === "qu") {
         let qu = currentWord.substring(0, 2);
         let restOfWord = currentWord.substring(2);
-        let transformedWords = restOfWord + qu + "ay";
-        return transformedWords;
+        return restOfWord + qu + "ay";
+      } else if (currentWord.slice(1, 3) === "qu") {
+        let consonantAndQu = currentWord.substring(0, 3);
+        let restOfWord = currentWord.substring(3);
+        return restOfWord + consonantAndQu + "ay";
       } else {
         let consonants = currentWord.substring(0, indexOfFirstVowel);
         let restOfWord = currentWord.substring(indexOfFirstVowel);
-        let transformedWords = restOfWord + consonants + "ay";
-        return transformedWords;
+        return restOfWord + consonants + "ay";
       }
       // Remember: console.log is your friend :)
       // ACTION ITEM: change the value of currentWord to the name of whatever variable you made containing your Pig Latin'd word
@@ -119,7 +122,7 @@ class App extends Component {
           <button onClick={this.restartGame}>Clear</button>
         </div>
         <p>{this.state.phraseTranslated}</p>
-        <footer>Coded by ~your name here~</footer>
+        <footer>Coded by Team Lurk</footer>
       </>
     );
   }
