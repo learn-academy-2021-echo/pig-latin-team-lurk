@@ -1,6 +1,6 @@
 body {
   margin: 1rem;
-  font-family: 'Josefin Sans', sans-serif;
+  font-family: "Josefin Sans", sans-serif;
   text-align: center;
 }
 
@@ -18,12 +18,13 @@ footer {
   padding: 2rem;
 }
 
-.butcherPig {
+.piggy {
   width: 12rem;
+  margin-top: -3em;
 }
 
 .userInput {
-  border-radius: .5rem;
+  border-radius: 0.5rem;
   font-size: 1rem;
   height: 5rem;
   width: 20rem;
@@ -33,7 +34,7 @@ footer {
 .inputArea {
   background-color: #606060;
   color: #fff;
-  border-radius: .5rem;
+  border-radius: 0.5rem;
   padding: 1rem;
 }
 
@@ -41,7 +42,7 @@ footer {
   h1 {
     font-size: 2rem;
   }
-  .userInput{
+  .userInput {
     font-size: 1rem;
     height: 5rem;
     width: 90%;

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./App.css";
-import butcherPig from "./assets/butcherPig.jpeg";
+import piggy from "./assets/piggy.png";
 
 class App extends Component {
   constructor(props) {
@@ -9,7 +9,7 @@ class App extends Component {
     this.state = {
       // "phrase" is the text entered by the user - right now there are test words hard coded to make the process of testing your code faster and easier
       // ACTION ITEM: when you are ready for your full user experience, delete the test words so phrase is assigned an empty string
-      phrase: "Hello Echo",
+      phrase: "Hello, world!!!",
       // "phraseTranslated" is what the user will see appear on the page as Pig Latin, it starts as the preset message and updates when your user clicks the "submit" button
       phraseTranslated: "This is where your translated sentence will appear.",
     };
@@ -65,6 +65,23 @@ class App extends Component {
               word.substring(3);
       };
 
+      const caseFixConsQu = (word) => {
+        return word[0] == word[0].toLowerCase()
+          ? word
+          : word.substring(0, 2).toLowerCase() +
+              word[2] +
+              word[3].toUpperCase() +
+              word.substring(4);
+      };
+
+      const caseFixY = (word) => {
+        return word[0] == word[0].toLowerCase()
+          ? word
+          : word.substring(0, word.indexOf("y")).toLowerCase() +
+              word[word.indexOf("y")].toUpperCase() +
+              word.substring(word.indexOf("y") + 1);
+      };
+
       const puncCheck = (word) => {
         if (word.match(/[.,:!?;]/)) {
           return word.slice(word.match(/[.,:!?;]/).index);
@@ -74,31 +91,52 @@ class App extends Component {
       };
 
       let indexOfFirstVowel = currentWord.indexOf(vowelsArray[0]);
+      let punc = puncCheck(currentWord);
       if (indexOfFirstVowel === 0) {
-        let punc = puncCheck(currentWord);
         return (
           currentWord.slice(0, currentWord.length - punc.length) + "way" + punc
         );
       } else if (currentWord.slice(0, 2).toLowerCase() === "qu") {
-        let punc = puncCheck(currentWord);
         let qu = caseFixQu(currentWord).substring(0, 2);
         let restOfWord = caseFixQu(currentWord).substring(2);
-        return restOfWord + qu + "ay" + punc;
+        return (
+          restOfWord.slice(0, restOfWord.length - punc.length) +
+          qu +
+          "ay" +
+          punc
+        );
       } else if (currentWord.slice(1, 3) === "qu") {
-        let punc = puncCheck(currentWord);
-        let consonantAndQu = currentWord.substring(0, 3);
-        let restOfWord = currentWord.substring(3);
-        return restOfWord + consonantAndQu + "ay" + punc;
+        let consonantAndQu = caseFixConsQu(currentWord).substring(0, 3);
+        let restOfWord = caseFixConsQu(currentWord).substring(3);
+        return (
+          restOfWord.slice(0, restOfWord.length - punc.length) +
+          consonantAndQu +
+          "ay" +
+          punc
+        );
       } else if (vowelsArray.length === 0 && currentWord.indexOf("y") !== -1) {
-        let punc = puncCheck(currentWord);
-        let consonants = currentWord.substring(0, currentWord.indexOf("y"));
-        let restOfWord = currentWord.substring(currentWord.indexOf("y"));
-        return restOfWord + consonants + "ay" + punc;
+        let consonants = caseFixY(currentWord).substring(
+          0,
+          currentWord.indexOf("y")
+        );
+        let restOfWord = caseFixY(currentWord).substring(
+          currentWord.indexOf("y")
+        );
+        return (
+          restOfWord.slice(0, restOfWord.length - punc.length) +
+          consonants +
+          "ay" +
+          punc
+        );
       } else {
-        let punc = puncCheck(currentWord);
         let consonants = caseFix(currentWord).substring(0, indexOfFirstVowel);
         let restOfWord = caseFix(currentWord).substring(indexOfFirstVowel);
-        return restOfWord + consonants + "ay" + punc;
+        return (
+          restOfWord.slice(0, restOfWord.length - punc.length) +
+          consonants +
+          "ay" +
+          punc
+        );
       }
       //Input Hello, World! --> Ello,hay Orld!way -->Ellohay, Orldway!
       //if there is a puncuation, ,.?!:;
@@ -144,9 +182,9 @@ class App extends Component {
       <>
         <h1>Pig Latin Translator</h1>
         <img
-          src={butcherPig}
+          src={piggy}
           alt="pig with butcher cut names in pig latin"
-          className="butcherPig"
+          className="piggy"
         />
         <div className="inputArea">
           <h4>Enter phrase to be translated:</h4>
@@ -159,11 +197,10 @@ class App extends Component {
           />
           <br />
           {/* button that called the setUpPreventDefault method which calls the myPigLatinCodeHere method */}
-          <button onClick={this.setUpPreventDefault}>Submit</button>
+          <button onClick={this.setUpPreventDefault}>Translate</button>
           <button onClick={this.restartGame}>Clear</button>
         </div>
-        <p>{this.state.phraseTranslated}</p>
-        <footer>Coded by Team Lurk</footer>
+        <h4>{this.state.phraseTranslated}</h4>
       </>
     );
   }
